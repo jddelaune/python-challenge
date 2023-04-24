@@ -12,10 +12,13 @@
 # In addition, your final script should both print the analysis to the terminal
 # and export a text file with the results.
 
-# open the CSV file
+# open the CSV file and declare some variables
 import os
 import csv
-csvpath = "S:\\PythonProjects\\Challenge_3\\Starter_Code\\python-challenge\\PyBank\\Resources\\budget_data.csv"
+
+CSV_PATH = os.path.join("Resources", "budget_data.csv")
+OUTPUT_PATH = os.path.join("analysis", "pybank_output.txt")
+
 prev_month = None
 avg_change = 0
 greatest_inc = 0
@@ -24,7 +27,7 @@ sum_delta_pl = 0
 
 pl_data = {}
 
-with open(csvpath) as csvfile:
+with open(CSV_PATH) as csvfile:
 
     # CSV reader specifies delimiter and variable that holds contents
     csvreader = csv.reader(csvfile, delimiter=',')
@@ -36,12 +39,6 @@ with open(csvpath) as csvfile:
     for row in csvreader:
         pl_data[row[0]] = int(row[1])
         
-#    for k in pl_data.keys():
-#        print(k)
-    
-#    for v in pl_data.values():
-#        print(v)
-
     # count the number of months in the dictionary (A)
     months = len(pl_data)
     
@@ -65,26 +62,18 @@ with open(csvpath) as csvfile:
 
     avg_change = sum_delta_pl / (months - 1) # divide that sum* by total number of entries to get the average Profit/Loss (C)
 
-    print(f"""
+    pybank_output = f"""
             Financial Analysis
             --------------------------
             Total Months: {months}
             Total: ${total_pl}
             Average Change: ${round(avg_change, 2)}
             Greatest Increase in Profits: {greatest_inc_month} (${greatest_inc})
-            Greatest Decrease in Profits: {greatest_dec_month} (${greatest_dec})""")
+            Greatest Decrease in Profits: {greatest_dec_month} (${greatest_dec})"""
 
-    output_path = os.path.join("S:\\PythonProjects\\Challenge_3\\Starter_Code\\python-challenge\\PyBank\\PyBankOutput.txt")
-
-    with open(output_path, 'w') as txtfile:
-        txtfile.write(f'''
-            Financial Analysis
-            --------------------------
-            Total Months: {months}
-            Total: ${total_pl}
-            Average Change: ${round(avg_change, 2)}
-            Greatest Increase in Profits: {greatest_inc_month} (${greatest_inc})
-            Greatest Decrease in Profits: {greatest_dec_month} (${greatest_dec})''')
+    with open(OUTPUT_PATH, 'w') as txtfile:
+        txtfile.write(pybank_output)
+        print(pybank_output)
 
 
 
